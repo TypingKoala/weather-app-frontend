@@ -1,4 +1,6 @@
-import { Button, Card, CardActions, CardContent, makeStyles, TextField, Typography } from "@material-ui/core";
+import { Button, Card, CardActions, CardContent, FormControl, IconButton, Input, InputAdornment, InputLabel, makeStyles, Typography } from "@material-ui/core";
+import { ArrowForward } from "@material-ui/icons";
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // A weather card that allows user to input a new zip code
-function ZipCard() {
+function ZipCard(props) {
   const classes = useStyles();
 
   return (
@@ -30,32 +32,58 @@ function ZipCard() {
       <Typography color="textSecondary" className={classes.title}>
         Enter a new ZIP Code
       </Typography>
-      <form className={classes.form}>
-        <TextField id="zip" label="Zip" />
+      <form 
+        className={classes.form} 
+        onSubmit={(evt) => {
+          evt.preventDefault();
+          props.submitZipCode();
+        }}
+      >
+        <FormControl fullWidth>
+          <InputLabel htmlFor="zipcode">ZIP Code</InputLabel>
+          <Input 
+            id="zipcode"
+            value={props.zipCode}
+            onChange={props.handleZipCodeChange}
+            autoFocus={true}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton aria-label="submit" onClick={props.submitZipCode}>
+                  <ArrowForward />
+                </IconButton>
+              </InputAdornment>
+            } />
+        </FormControl>
       </form>
       </CardContent>
     </Card>
   )
 }
 
+ZipCard.propTypes = {
+  zipCode: PropTypes.string.isRequired,
+  handleZipCodeChange: PropTypes.func.isRequired,
+  submitZipCode: PropTypes.func.isRequired
+}
+
 // A weather card that allows user to input a new zip code
-function WeatherCard({ data }) {
+function WeatherCard({ zipcode }) {
   const classes = useStyles();
 
   return (
     <Card>
       <CardContent>
       <Typography color="textSecondary" className={classes.title}>
-        {`Weather in ${data.city}`}
+        {`Weather in ${zipcode}`}
       </Typography>
       <img src="https://openweathermap.org/img/wn/02d@4x.png" alt="weather condition" />
       
       <Typography variant="subtitle1">
-        {`Temperature: ${data.temperature}`}
+        {`Temperature: 80 F`}
         <br />
-        {`Humidity: ${data.humidity}`}
+        {`Humidity: 60%`}
         <br />
-        {`Conditions: ${data.conditions}`}
+        {`Conditions: Cloudy`}
       </Typography>
       </CardContent>
       <CardActions>
