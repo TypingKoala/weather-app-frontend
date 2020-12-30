@@ -67,14 +67,14 @@ ZipCard.propTypes = {
 }
 
 // A weather card that allows user to input a new zip code
-function WeatherCard({ zipcode }) {
+function WeatherCard(props) {
   const classes = useStyles();
 
   return (
     <Card>
       <CardContent>
       <Typography color="textSecondary" className={classes.title}>
-        {`Weather in ${zipcode}`}
+        {`Weather in ${props.zipCode}`}
       </Typography>
       <img src="https://openweathermap.org/img/wn/02d@4x.png" alt="weather condition" />
       
@@ -87,12 +87,21 @@ function WeatherCard({ zipcode }) {
       </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="secondary">
+        <Button 
+          size="small" 
+          color="secondary" 
+          onClick={() => props.removeZipCode(props.zipCode)}
+        >
           Remove
         </Button>
       </CardActions>
     </Card>
   )
+}
+
+WeatherCard.propTypes = {
+  zipCode: PropTypes.string.isRequired,
+  removeZipCode: PropTypes.func.isRequired
 }
 
 export { WeatherCard, ZipCard };

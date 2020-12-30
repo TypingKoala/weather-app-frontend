@@ -13,6 +13,7 @@ class App extends React.Component {
     }
     this.handleZipCodeChange = this.handleZipCodeChange.bind(this);
     this.submitZipCode = this.submitZipCode.bind(this);
+    this.removeZipCode = this.removeZipCode.bind(this);
   }
 
   handleZipCodeChange(event) {
@@ -21,11 +22,17 @@ class App extends React.Component {
 
   submitZipCode() {
     if (!this.state.zipCode) return;
+    if (this.state.locations.includes(this.state.zipCode)) return;
     const locations = [...this.state.locations, this.state.zipCode];
     this.setState({
       locations,
       zipCode: ""
     })
+  }
+
+  removeZipCode(zipCode) {
+    const locations = this.state.locations.filter((location) => location !== zipCode);
+    this.setState({ locations });
   }
 
   render() {
@@ -40,9 +47,9 @@ class App extends React.Component {
           justify="center" 
           alignItems="flex-start"
         >
-          {this.state.locations.map((zipcode, idx) => (
+          {this.state.locations.map((zipCode, idx) => (
           <Grid item key={idx} xs={12} sm={6} md={3}>
-            <WeatherCard zipcode={zipcode} />
+            <WeatherCard zipCode={zipCode} removeZipCode={this.removeZipCode} />
           </Grid>
           ))}
   
