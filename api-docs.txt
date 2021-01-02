@@ -1,0 +1,48 @@
+GET: /api/weather
+  Parameters:
+    zipcode: a valid zip code
+  Response:
+    JSON Fields:
+      city
+      temperature
+      ...
+      error (checking for error condition)
+
+POST: /api/getToken
+  Body:
+    JSON Fields:
+      Email
+      Password
+  Response:
+    JSON Fields:
+      token (JSON Web Token)
+      error (checking for error condition)
+
+GET: /api/getLocations
+  Header:
+    Bearer
+  Response:
+    JSON Fields:
+      locations
+      error
+
+POST: /api/setLocations
+  Header:
+    Bearer
+  Body:
+    JSON Fields:
+      locations
+  Response:
+    JSON Fields:
+      success (boolean)
+      error (error message)
+
+POST: /api/signup
+  Body:
+    JSON Fields:
+      Email
+      Password
+  Response:
+    JSON Fields:
+      token (JSON Web Token)
+      error

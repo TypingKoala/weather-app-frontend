@@ -1,21 +1,16 @@
 import React from 'react';
-import { Container, withStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import './App.css';
-import LoginCard from './LoginCard';
-import WeatherGrid from './WeatherGrid';
+import Home from './Home';
 
 const styles = {}
 
 class App extends React.Component {
   render() {
     return (
-      <Container>
-        <LoginCard />
-        <WeatherGrid />
-      </Container>
+      <Home />
     );
   }
-  
 }
 
 export default withStyles(styles)(App);

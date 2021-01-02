@@ -2,11 +2,16 @@ import { Grid } from '@material-ui/core';
 import React from 'react';
 import ZipCard from './ZipCard';
 import WeatherCard from './WeatherCard';
+import PropTypes from 'prop-types';
 
 function checkValidZipCode(zipCode, cb) {
   const params = new URLSearchParams({ zipcode: zipCode });
   fetch(process.env.REACT_APP_API_ENDPOINT + "/weather?" + params)
-    .then(resp => cb(resp.status === 200))
+    .then(resp => resp.json())
+    .then(data => {
+      if (data.error) throw Error(data.error);
+      return cb(true);
+    })
     .catch(err => cb(false));
 }
 
@@ -14,7 +19,6 @@ class WeatherGrid extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      locations: [],
       zipCode: '',
       zipCodeError: false,
       zipCodeHelperText: ''
@@ -30,7 +34,7 @@ class WeatherGrid extends React.Component {
 
   submitZipCode() {
     if (!this.state.zipCode) return;
-    if (this.state.locations.includes(this.state.zipCode)) {
+    if (this.props.locations.includes(this.state.zipCode)) {
       return this.setState({
         zipCodeError: true,
         zipCodeHelperText: "Card already exists for this ZIP Code"
@@ -40,9 +44,9 @@ class WeatherGrid extends React.Component {
     // check if valid zip code
     checkValidZipCode(this.state.zipCode, (valid) => {
       if (valid) {
-        const locations = [...this.state.locations, this.state.zipCode];
+        const locations = [...this.props.locations, this.state.zipCode];
+        this.props.setLocations(locations);
         this.setState({
-          locations,
           zipCode: "",
           zipCodeError: false,
           zipCodeHelperText: ""
@@ -57,8 +61,8 @@ class WeatherGrid extends React.Component {
   }
 
   removeZipCode(zipCode) {
-    const locations = this.state.locations.filter((location) => location !== zipCode);
-    this.setState({ locations });
+    const locations = this.props.locations.filter((location) => location !== zipCode);
+    this.props.setLocations(locations);
   }
 
   render() {
@@ -70,7 +74,7 @@ class WeatherGrid extends React.Component {
           justify="center" 
           alignItems="flex-start"
         >
-          {this.state.locations.map((zipCode, idx) => (
+          {this.props.locations.map((zipCode, idx) => (
           <Grid item key={idx} xs={12} sm={6} md={3}>
             <WeatherCard zipCode={zipCode} removeZipCode={this.removeZipCode} />
           </Grid>
@@ -88,7 +92,11 @@ class WeatherGrid extends React.Component {
         </Grid>
     );
   }
-  
+}
+
+WeatherGrid.propTypes = {
+  setLocations: PropTypes.func.isRequired,
+  locations: PropTypes.array.isRequired
 }
 
 export default WeatherGrid;

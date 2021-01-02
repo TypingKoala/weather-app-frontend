@@ -54,6 +54,7 @@ class WeatherCard extends React.Component {
     fetch(process.env.REACT_APP_API_ENDPOINT + "/weather?" + params)
       .then(resp => resp.json())
       .then(data => {
+        if (data.error) throw Error(data.error);
         this.setState({
           loaded: true, // disable content-loader
           city: data.city,
