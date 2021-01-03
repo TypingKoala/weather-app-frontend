@@ -1,14 +1,32 @@
+import {
+  Route,
+  BrowserRouter as Router,
+  Switch
+} from "react-router-dom";
+
+import ChangePassword from './ChangePassword';
+import Home from './Home';
 import React from 'react';
 import { withStyles } from '@material-ui/core';
-import './App.css';
-import Home from './Home';
 
 const styles = {}
 
 class App extends React.Component {
   render() {
     return (
-      <Home />
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/changePassword/:key">
+            <ChangePassword />
+          </Route>
+          <Route path="/changePassword">
+            <ChangePassword />
+          </Route>
+        </Switch>
+      </Router>
     );
   }
 }

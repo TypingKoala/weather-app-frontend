@@ -1,4 +1,5 @@
-import { Button, Card, CardContent, Container, FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, makeStyles, Typography } from '@material-ui/core';
+import { Button, Card, CardContent, Container, FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, Typography, makeStyles } from '@material-ui/core';
+
 import { ArrowForward } from '@material-ui/icons';
 import { useState } from 'react';
 
@@ -101,7 +102,7 @@ export default function SignUpCard(props) {
           </form>
           <Typography variant="subtitle1">
               Already have an account?
-              <Button onClick={() => props.setShowSignUp(false)}>Sign-in</Button>
+              <Button onClick={props.setLoginCardState}>Sign-in</Button>
             </Typography>
         </CardContent>
       </Card>

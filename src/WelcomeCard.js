@@ -1,4 +1,6 @@
-import { Button, Card, CardContent, Container, makeStyles, Typography } from '@material-ui/core';
+import { Button, Card, CardContent, Container, Typography, makeStyles } from '@material-ui/core';
+
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -12,11 +14,15 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     backgroundColor: "#c2dcff"
+  },
+  button: {
+    padding: theme.spacing(2)
   }
 }));
 
 export default function WelcomeCard(props) {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <Container className={classes.container}>
@@ -28,8 +34,16 @@ export default function WelcomeCard(props) {
           <Button
             variant="contained"
             color="primary"
+            className="button"
             onClick={props.logOutUser}>
             Log-out
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            className="button"
+            onClick={() => history.push('/changePassword')}>
+            Change Password
           </Button>
         </CardContent>
       </Card>
