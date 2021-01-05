@@ -1,8 +1,8 @@
 import { Grid } from '@material-ui/core';
-import React from 'react';
-import ZipCard from './ZipCard';
-import WeatherCard from './WeatherCard';
 import PropTypes from 'prop-types';
+import React from 'react';
+import WeatherCard from './WeatherCard';
+import ZipCard from './ZipCard';
 
 function checkValidZipCode(zipCode, cb) {
   const params = new URLSearchParams({ zipcode: zipCode });
@@ -75,7 +75,7 @@ class WeatherGrid extends React.Component {
           alignItems="flex-start"
         >
           {this.props.locations.map((zipCode, idx) => (
-          <Grid item key={idx} xs={12} sm={6} md={3}>
+          <Grid item key={zipCode} xs={12} sm={6} md={3}>
             <WeatherCard zipCode={zipCode} removeZipCode={this.removeZipCode} />
           </Grid>
           ))}
